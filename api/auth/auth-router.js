@@ -29,15 +29,11 @@ router.post(
     const hash = bcrypt.hashSync(user.password, rounds);
 
     user.password = hash;
-    console.log(`this is user`, user);
     Users.add(user)
       .then((saved) => {
         res.status(201).json(saved);
       })
-      .catch((err) => {
-        console.log(err);
-        next(err);
-      });
+      .catch(next);
   }
 );
 
