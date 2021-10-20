@@ -1,16 +1,22 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
-const buildToken = require("./token-builder");
+const buildToken = require("../auth/token-builder");
+
 const {
-  checkUsernameFree,
   checkForUserInput,
-  checkRoleId,
   checkUsernameExists,
+  checkUsernameFree,
+  checkRoleId,
 } = require("../middleware/auth-middleware");
+
 const Users = require("../users/users-model");
 
 router.get("/", (req, res, next) => {
-  console.log("working");
+  Users.getAll()
+    .then((users) => {
+      res.json(users);
+    })
+    .catch(next);
 });
 
 router.post(
@@ -56,6 +62,12 @@ router.post(
   }
 );
 
-// router.post("/logout", (req, res, next) => {});
+router.get("/:user_id/classes", (req, res, next) => {
+  Users.getUsersClasses(req.params.user_id)
+    .then((classes) => {
+      res.status(200).json(classes);
+    })
+    .catch(next);
+});
 
 module.exports = router;

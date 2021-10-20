@@ -13,19 +13,39 @@ exports.up = async (knex) => {
         .unsigned()
         .notNullable()
         .references("role_id")
-        .inTable("roles")
-        .onUpdate("RESTRICT")
-        .onDelete("RESTRICT");
+        .inTable("roles");
     })
     .createTable("classes", (classes) => {
       classes.increments("class_id");
       classes.string("class_name").notNullable().unique();
-      classes.integer("class_size");
+      classes.string("start_time").notNullable();
+      classes.string("duration").notNullable();
+      classes.string("intensity_level").notNullable();
+      classes.string("location").notNullable();
+      classes.integer("max_class_size").notNullable();
+      classes.string("instructor_id").notNullable();
+    })
+    .createTable("register", (register) => {
+      register
+        .integer("class_id")
+        .unsigned()
+        .notNullable()
+        .references("class_id")
+        .inTable("classes");
+      register
+        .integer("user_id")
+        .unsigned()
+        .notNullable()
+        .references("user_id")
+        .inTable("users")
+        .onUpdate("RESTRICT")
+        .onDelete("RESTRICT");
     });
 };
 
 exports.down = async (knex) => {
-  await knex.schema.dropTableIfExists("roles");
-  await knex.schema.dropTableIfExists("users");
+  await knex.schema.dropTableIfExists("register");
   await knex.schema.dropTableIfExists("classes");
+  await knex.schema.dropTableIfExists("users");
+  await knex.schema.dropTableIfExists("roles");
 };

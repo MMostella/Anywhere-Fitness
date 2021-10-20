@@ -1,60 +1,72 @@
-# Build Week Scaffolding for Node and PostgreSQL
+Roles
 
-## Video Tutorial
+"role_id": 1 = "client"
+"role_id": 2 = "instructor"
 
-The following tutorial explains how to set up this project using PostgreSQL and Heroku.
+Endpoints
 
-[![Setting up PostgreSQL for Build Week](https://img.youtube.com/vi/kTO_tf4L23I/maxresdefault.jpg)](https://www.youtube.com/watch?v=kTO_tf4L23I)
+[GET] https://anywherefitnessbuild.herokuapp.com/api/users
 
-## Requirements
+returns array of user objects on the db
+[
+{
+"user_id": 1,
+"username": "Mason",
+"password": "$2a$08$W/im5FlvQPQr7f.4ykM01eyGXGXwZGYBa9VvYTTOenlSHWPnoCEo2",
+"role_id": 2
+}
+]
 
-- [PostgreSQL, pgAdmin 4](https://www.postgresql.org/download/) and [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) installed in your local machine.
-- A Heroku app with the [Heroku PostgreSQL Addon](https://devcenter.heroku.com/articles/heroku-postgresql#provisioning-heroku-postgres) added to it.
-- Development and testing databases created with [pgAdmin 4](https://www.pgadmin.org/docs/pgadmin4/4.29/database_dialog.html).
+[POST] https://anywherefitnessbuild.herokuapp.com/api/users/register
 
-## Starting a New Project
+returns new user object
+{
+"user_id": 3,
+"username": "Allison",
+"password": "$2a$08$wNp1GSzBkvnMbWl7Qynd0OwxWpnf9p1Geb4qjOWJ6b6T7crjQleZe",
+"role_id": 1
+}
 
-- Create a new repository using this template, and clone it to your local.
-- Create a `.env` file and follow the instructions inside `knexfile.js`.
-- Fix the scripts inside `package.json` to use your Heroku app.
+REQUIRES username, password and role_id
 
-## Scripts
+[POST] https://anywherefitnessbuild.herokuapp.com/api/users/login
 
-- **start**: Runs the app in production.
-- **server**: Runs the app in development.
-- **migrate**: Migrates the local development database to the latest.
-- **rollback**: Rolls back migrations in the local development database.
-- **seed**: Truncates all tables in the local development database, feel free to add more seed files.
-- **test**: Runs tests.
-- **deploy**: Deploys the main branch to Heroku.
+returns Welcome back message with users name and custom token
+{
+"message": "Welcome back Allison!",
+"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFsbGlzb24iLCJpYXQiOjE2MzQ2NTc3MjAsImV4cCI6MTYzNDc0NDEyMH0.MVzImHV78JjTVUIix5IrV05dZURqJpiBGdl9BcHG4sE"
+}
 
-**The following scripts NEED TO BE EDITED before using: replace `YOUR_HEROKU_APP_NAME`**
+REQUIRES username and password ONLY
 
-- **migrateh**: Migrates the Heroku database to the latest.
-- **rollbackh**: Rolls back migrations in the Heroku database.
-- **databaseh**: Interact with the Heroku database from the command line using psql.
-- **seedh**: Runs all seeds in the Heroku database.
+[GET] https://anywherefitnessbuild.herokuapp.com/api/classes
 
-## Hot Tips
+returns array of all the classes in the system
+[
+{
+"class_id": 1,
+"class_name": "Yoga2.0",
+"start_time": "9:00",
+"duration": "1hr",
+"intensity_level": "4",
+"location": "Chattanooga",
+"class_size": 8,
+"max_class_size": 15
+}
+]
 
-- Figure out the connection to the database and deployment before writing any code.
+[POST] https://anywherefitnessbuild.herokuapp.com/api/classes/add
 
-- If you need to make changes to a migration file that has already been released to Heroku, follow this sequence:
+returns new class object
+{
+"class_id": 1,
+"class_name": "Yoga2.0",
+"start_time": "9:00",
+"duration": "1hr",
+"intensity_level": "4",
+"location": "Chattanooga",
+"class_size": 8,
+"max_class_size": 15
+}
 
-  1. Roll back migrations in the Heroku database
-  2. Deploy the latest code to Heroku
-  3. Migrate the Heroku database to the latest
-
-- If your frontend devs are clear on the shape of the data they need, you can quickly build provisional endpoints that return mock data. They shouldn't have to wait for you to build the entire backend.
-
-- Keep your endpoints super lean: the bulk of the code belongs inside models and other middlewares.
-
-- Validating and sanitizing client data using a library is much less work than doing it manually.
-
-- Revealing crash messages to clients is a security risk, but during development it's helpful if your frontend devs are able to tell you what crashed.
-
-- PostgreSQL comes with [fantastic built-in functions](https://hashrocket.com/blog/posts/faster-json-generation-with-postgresql) for hammering rows into whatever JSON shape.
-
-- If you want to edit a migration that has already been released but don't want to lose all the data, make a new migration instead. This is a more realistic flow for production apps: prod databases are never migrated down. We can migrate Heroku down freely only because there's no valuable data from customers in it. In this sense, Heroku is acting more like a staging environment than production.
-
-- If your fronted devs are interested in running the API locally, help them set up PostgreSQL & pgAdmin in their machines, and teach them how to run migrations in their local. This empowers them to (1) help you troubleshoot bugs, (2) obtain the latest code by simply doing `git pull` and (3) work with their own data, without it being wiped every time you roll back the Heroku db. Collaboration is more fun and direct, and you don't need to deploy as often.
+REQUIRES all the fields found above

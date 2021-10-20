@@ -5,6 +5,7 @@ module.exports = {
   add,
   findById,
   findBy,
+  getUsersClasses,
 };
 
 function getAll() {
@@ -22,4 +23,11 @@ function findById(id) {
 
 function findBy(filter) {
   return db("users").where(filter);
+}
+
+function getUsersClasses(userId) {
+  return db("users as u")
+    .join("classes as c", "u.role_id", "c.class_id")
+    .select("u.user_id", "u.username", "c.class_name")
+    .where("u.user_id", userId);
 }
