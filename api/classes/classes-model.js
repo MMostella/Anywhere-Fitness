@@ -23,11 +23,22 @@ async function updateById(class_id, updatedClass) {
 }
 
 async function registerClass(client) {
-  const [{ class_id, user_id }] = await db("register").insert(client);
-  return class_id;
+  const added = await db("register").insert(client);
+  return added;
 }
 
-async function deleteById(id) {
+function getClassList(class_id) {
+  return db("register as r")
+    .join("users as u", "r.user_id", "u.user_id")
+    .select("register_id", "username")
+    .where("class_id", class_id);
+}
+
+function deleteClient(id) {
+  return db("register").where("user_id", id).delete;
+}
+
+function deleteById(id) {
   return db("classes").where("class_id", id).delete;
 }
 
@@ -39,4 +50,6 @@ module.exports = {
   deleteById,
   updateById,
   registerClass,
+  getClassList,
+  deleteClient,
 };

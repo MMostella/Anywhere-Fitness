@@ -12,6 +12,14 @@ router.get("/", (req, res, next) => {
     .catch(next);
 });
 
+router.get("/:class_id", (req, res, next) => {
+  Classes.getClassList(req.params.class_id)
+    .then((classes) => {
+      res.json(classes);
+    })
+    .catch(next);
+});
+
 router.post("/", (req, res, next) => {
   let newClass = req.body;
 
@@ -22,19 +30,10 @@ router.post("/", (req, res, next) => {
     .catch(next);
 });
 
-router.post("/register/:class_id", async (req, res, next) => {
+router.post("/register", async (req, res, next) => {
   try {
-    const { user_id } = req.body;
-    const updated = await Classes.registerClass(req.params.class_id, user_id);
-
-    // if (updated.class_size < updated.max_class_size) {
-    //   res.json({
-    //     ...updated,
-    //     class_size: updated.class_size + 1,
-    //   });
-    // } else {
-    //   next({ message: `This class is full` });
-    // }
+    const updated = await Classes.registerClass(req.body);
+    res.json(updated);
   } catch (err) {
     next(err);
   }
@@ -44,6 +43,15 @@ router.put("/:class_id", async (req, res, next) => {
   try {
     const updated = await Classes.updateById(req.params.class_id, req.body);
     res.json(updated);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete("/user/:user_id", async (req, res, next) => {
+  try {
+    await Classes.deleteClient(req.params.user_id);
+    res.json({ message: `User deleted from class` });
   } catch (err) {
     next(err);
   }

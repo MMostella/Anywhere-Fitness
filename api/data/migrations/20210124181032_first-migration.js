@@ -23,22 +23,30 @@ exports.up = async (knex) => {
       classes.string("intensity_level").notNullable();
       classes.string("location").notNullable();
       classes.integer("max_class_size").notNullable();
-      classes.string("instructor_id").notNullable();
+      classes
+        .integer("user_id")
+        .unsigned()
+        .notNullable()
+        .references("user_id")
+        .inTable("users");
     })
     .createTable("register", (register) => {
+      register.increments("register_id");
       register
         .integer("class_id")
         .unsigned()
         .notNullable()
         .references("class_id")
-        .inTable("classes");
+        .inTable("classes")
+        .onUpdate("CASCADE")
+        .onDelete("RESTRICT");
       register
         .integer("user_id")
         .unsigned()
         .notNullable()
         .references("user_id")
         .inTable("users")
-        .onUpdate("RESTRICT")
+        .onUpdate("CASCADE")
         .onDelete("RESTRICT");
     });
 };

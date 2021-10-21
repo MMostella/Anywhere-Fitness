@@ -24,7 +24,7 @@ exports.seed = async function (knex) {
       intensity_level: "6",
       location: "Japan",
       max_class_size: 12,
-      instructor_id: "1",
+      user_id: "1",
     },
     {
       class_id: 1,
@@ -34,7 +34,7 @@ exports.seed = async function (knex) {
       intensity_level: "4",
       location: "China",
       max_class_size: 15,
-      instructor_id: "1",
+      user_id: "1",
     },
   ]);
 };
