@@ -34,8 +34,9 @@ function getClassList(class_id) {
     .where("class_id", class_id);
 }
 
-function deleteClient(id) {
-  return db("register").where("user_id", id).delete;
+function deleteClient(class_id, user_id) {
+  const currentClass = findById(class_id);
+  return db("register").where("user_id", user_id).delete;
 }
 
 function deleteById(class_id) {
