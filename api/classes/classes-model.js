@@ -35,12 +35,14 @@ function getClassList(class_id) {
 }
 
 function deleteClient(class_id, user_id) {
-  const currentClass = findById(class_id);
-  return db("register").where("user_id", user_id).delete;
+  return db("register")
+    .where("class_id", class_id)
+    .andWhere("user_id", user_id)
+    .delete();
 }
 
 function deleteById(class_id) {
-  return db("classes").where("class_id", class_id).delete;
+  return db("classes").where("class_id", class_id).delete();
 }
 
 module.exports = {

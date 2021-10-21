@@ -1,9 +1,10 @@
 const router = require("express").Router();
 
 const Classes = require("../classes/classes-model");
-const { checkClassSize } = require("../middleware/class-middleware");
+const restricted = require("../middleware/restricted");
+const { only } = require("../middleware/auth-middleware");
 
-router.get("/", (req, res, next) => {
+router.get("/", restricted, (req, res, next) => {
   Classes.getAll()
     .then((classes) => {
       res.json(classes);
@@ -11,7 +12,7 @@ router.get("/", (req, res, next) => {
     .catch(next);
 });
 
-router.get("/:class_id", (req, res, next) => {
+router.get("/:class_id", restricted, only(1), (req, res, next) => {
   Classes.getClassList(req.params.class_id)
     .then((classes) => {
       res.json(classes);
@@ -19,7 +20,7 @@ router.get("/:class_id", (req, res, next) => {
     .catch(next);
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", restricted, only(1), (req, res, next) => {
   let newClass = req.body;
 
   Classes.add(newClass)
@@ -29,7 +30,7 @@ router.post("/", (req, res, next) => {
     .catch(next);
 });
 
-router.post("/register", checkClassSize, async (req, res, next) => {
+router.post("/register", restricted, async (req, res, next) => {
   try {
     const updated = await Classes.registerClass(req.body);
     res.json(updated);
@@ -38,7 +39,7 @@ router.post("/register", checkClassSize, async (req, res, next) => {
   }
 });
 
-router.put("/:class_id", async (req, res, next) => {
+router.put("/:class_id", restricted, only(1), async (req, res, next) => {
   try {
     const updated = await Classes.updateById(req.params.class_id, req.body);
     res.json(updated);
@@ -47,18 +48,19 @@ router.put("/:class_id", async (req, res, next) => {
   }
 });
 
-router.delete("/user/:class_id", async (req, res, next) => {
+router.delete("/user/:class_id", restricted, async (req, res, next) => {
   try {
-    await Classes.deleteClient(req.params.class_id, req.body);
+    const { user_id } = req.body;
+    await Classes.deleteClient(req.params.class_id, user_id);
     res.json({ message: `User deleted from class` });
   } catch (err) {
     next(err);
   }
 });
 
-router.delete("/:class_id", async (req, res, next) => {
+router.delete("/:class_id", restricted, only(1), async (req, res, next) => {
   try {
-    await Classes.deleteById(req.params.id);
+    await Classes.deleteById(req.params.class_id);
     res.json({ message: `Class deleted` });
   } catch (err) {
     next(err);

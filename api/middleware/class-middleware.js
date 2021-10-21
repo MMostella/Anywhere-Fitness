@@ -4,7 +4,7 @@ function checkClassSize(req, res, next) {
   try {
     const test = Classes.findById(req.params.class_id);
     const size = Classes.getClassList(req.params.class_id);
-    if (test.max_class_size > size.length) {
+    if (size.length < test.max_class_size) {
       next();
     } else {
       next({ message: `Class is already full!` });

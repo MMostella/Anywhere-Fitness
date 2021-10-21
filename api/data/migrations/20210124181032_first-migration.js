@@ -39,7 +39,7 @@ exports.up = async (knex) => {
         .references("class_id")
         .inTable("classes")
         .onUpdate("CASCADE")
-        .onDelete("RESTRICT");
+        .onDelete("CASCADE");
       register
         .integer("user_id")
         .unsigned()
@@ -47,7 +47,7 @@ exports.up = async (knex) => {
         .references("user_id")
         .inTable("users")
         .onUpdate("CASCADE")
-        .onDelete("RESTRICT");
+        .onDelete("CASCADE");
     });
 };
 

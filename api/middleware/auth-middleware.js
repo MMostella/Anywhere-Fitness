@@ -1,6 +1,7 @@
 const Users = require("../users/users-model");
 
 const only = (role_id) => (req, res, next) => {
+  console.log(req.decodedToken.role_id);
   if (req.decodedToken.role_id === role_id) {
     next();
   } else {

@@ -5,6 +5,7 @@ module.exports = function (user) {
   const payload = {
     subject: user.id,
     username: user.username,
+    role_id: user.role_id,
   };
   const options = {
     expiresIn: "1d",

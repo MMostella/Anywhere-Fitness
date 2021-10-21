@@ -2,16 +2,19 @@ const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const buildToken = require("../auth/token-builder");
 
+const restricted = require("../middleware/restricted");
+
 const {
   checkForUserInput,
   checkUsernameExists,
   checkUsernameFree,
   checkRoleId,
+  only,
 } = require("../middleware/auth-middleware");
 
 const Users = require("../users/users-model");
 
-router.get("/", (req, res, next) => {
+router.get("/", restricted, only(1), (req, res, next) => {
   Users.getAll()
     .then((users) => {
       res.json(users);
@@ -57,14 +60,14 @@ router.post(
             token,
           });
         } else {
-          next({ status: 401, message: "invalid credentials" });
+          next({ status: 401, message: "Invalid Credentials" });
         }
       })
       .catch(next);
   }
 );
 
-router.get("/:user_id/classes", (req, res, next) => {
+router.get("/:user_id/classes", restricted, (req, res, next) => {
   Users.getUsersClasses(req.params.user_id)
     .then((classes) => {
       res.status(200).json(classes);
