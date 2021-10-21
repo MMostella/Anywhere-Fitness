@@ -23,7 +23,10 @@ async function updateById(class_id, updatedClass) {
 }
 
 async function registerClass(client) {
-  const added = await db("register").insert(client, ["class_id", "user_id"]);
+  const added = await db("register as r").insert(client, [
+    "class_id",
+    "user_id",
+  ]);
   return added;
 }
 
@@ -32,6 +35,13 @@ function getClassList(class_id) {
     .join("users as u", "r.user_id", "u.user_id")
     .select("register_id", "username")
     .where("class_id", class_id);
+}
+
+async function getClients(class_id, user_id) {
+  const test = await db("register")
+    .where("class_id", class_id)
+    .andWhere("user_id", user_id);
+  return test;
 }
 
 function deleteClient(class_id, user_id) {
@@ -55,4 +65,5 @@ module.exports = {
   registerClass,
   getClassList,
   deleteClient,
+  getClients,
 };

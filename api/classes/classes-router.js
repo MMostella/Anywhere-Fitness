@@ -3,6 +3,7 @@ const router = require("express").Router();
 const Classes = require("../classes/classes-model");
 const restricted = require("../middleware/restricted");
 const { only } = require("../middleware/auth-middleware");
+const { checksRegisteration } = require("../middleware/class-middleware");
 
 router.get("/", restricted, (req, res, next) => {
   Classes.getAll()
@@ -30,14 +31,19 @@ router.post("/", restricted, only(1), (req, res, next) => {
     .catch(next);
 });
 
-router.post("/register", restricted, async (req, res, next) => {
-  try {
-    const updated = await Classes.registerClass(req.body);
-    res.json(updated);
-  } catch (err) {
-    next(err);
+router.post(
+  "/register",
+  restricted,
+  checksRegisteration,
+  async (req, res, next) => {
+    try {
+      await Classes.registerClass(req.body);
+      res.json({ message: `You have been added to the class!` });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 router.put("/:class_id", restricted, only(1), async (req, res, next) => {
   try {
