@@ -1,6 +1,7 @@
 const router = require("express").Router();
 
 const Classes = require("../classes/classes-model");
+const { checkClassSize } = require("../middleware/class-middleware");
 
 router.get("/", (req, res, next) => {
   Classes.getAll()
@@ -28,7 +29,7 @@ router.post("/", (req, res, next) => {
     .catch(next);
 });
 
-router.post("/register", async (req, res, next) => {
+router.post("/register", checkClassSize, async (req, res, next) => {
   try {
     const updated = await Classes.registerClass(req.body);
     res.json(updated);
@@ -46,9 +47,9 @@ router.put("/:class_id", async (req, res, next) => {
   }
 });
 
-router.delete("/user/:user_id", async (req, res, next) => {
+router.delete("/user/:class_id", async (req, res, next) => {
   try {
-    await Classes.deleteClient(req.params.user_id);
+    await Classes.deleteClient(req.params.class_id, req.body);
     res.json({ message: `User deleted from class` });
   } catch (err) {
     next(err);
