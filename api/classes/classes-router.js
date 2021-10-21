@@ -54,10 +54,10 @@ router.put("/:class_id", restricted, only(1), async (req, res, next) => {
   }
 });
 
-router.delete("/user/:class_id", restricted, async (req, res, next) => {
+router.delete("/:user_id/:class_id", restricted, async (req, res, next) => {
   try {
-    const { user_id } = req.body;
-    await Classes.deleteClient(req.params.class_id, user_id);
+    const { class_id, user_id } = req.params;
+    await Classes.deleteClient(class_id, user_id);
     res.json({ message: `User deleted from class` });
   } catch (err) {
     next(err);
