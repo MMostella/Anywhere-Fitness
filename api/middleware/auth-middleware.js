@@ -1,7 +1,6 @@
 const Users = require("../users/users-model");
 
 const only = (role_id) => (req, res, next) => {
-  console.log(req.decodedToken.role_id);
   if (req.decodedToken.role_id === role_id) {
     next();
   } else {
@@ -18,7 +17,7 @@ async function checkUsernameFree(req, res, next) {
       next({ status: 422, message: "Username taken" });
     }
   } catch (err) {
-    next(err);
+    next({ message: `Username is Required` });
   }
 }
 

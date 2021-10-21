@@ -16,27 +16,27 @@ exports.seed = async function (knex) {
     },
     {
       username: "Mason",
-      password: "$2a$08$gjh6dU/Jv.Un7INLAc3LZOs9KJTc6DEU6wDOFDUbeuB23pg4Plroi",
+      password: "$2a$08$gjh6dU/Jv.Un7INLAc3LZOs9KJTc6DEU6wDOFDUbeuB23pg4Plroi", // password "1234"
       role_id: 1,
     },
     {
       username: "Allison",
-      password: "$2a$08$lx6QQ5o.gG6CiSSOEWrznefIhUCpGou9fIGtOhP62y1CLqItSf0le",
+      password: "$2a$08$lx6QQ5o.gG6CiSSOEWrznefIhUCpGou9fIGtOhP62y1CLqItSf0le", // password "1234"
       role_id: 2,
     },
     {
       username: "Chase",
-      password: "$2a$08$.TCTKyS2RDui8TCIHaAnH.3v6MyQqFminUllD6xfCZjvMIQVnAIeS",
+      password: "$2a$08$.TCTKyS2RDui8TCIHaAnH.3v6MyQqFminUllD6xfCZjvMIQVnAIeS", // password "1234"
       role_id: 2,
     },
     {
       username: "Sonya",
-      password: "$2a$08$Ee3ZCMjXz9dc23xdAwVT/.nWTxz1ji9m.qp0r4aPVA7EZHqOcJV4u",
+      password: "$2a$08$Ee3ZCMjXz9dc23xdAwVT/.nWTxz1ji9m.qp0r4aPVA7EZHqOcJV4u", // password "1234"
       role_id: 2,
     },
     {
       username: "Xavier",
-      password: "$2a$08$QfjujHDK9hcxJSXlc7HXTOp6guo7.JSgqnTne5dCoxpxllwyh5bIy",
+      password: "$2a$08$QfjujHDK9hcxJSXlc7HXTOp6guo7.JSgqnTne5dCoxpxllwyh5bIy", // password "1234"
       role_id: 2,
     },
   ]);
