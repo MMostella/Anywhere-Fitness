@@ -23,7 +23,7 @@ async function updateById(class_id, updatedClass) {
 }
 
 async function registerClass(client) {
-  const added = await db("register").insert(client);
+  const added = await db("register").insert(client, ["class_id", "user_id"]);
   return added;
 }
 
@@ -38,8 +38,8 @@ function deleteClient(id) {
   return db("register").where("user_id", id).delete;
 }
 
-function deleteById(id) {
-  return db("classes").where("class_id", id).delete;
+function deleteById(class_id) {
+  return db("classes").where("class_id", class_id).delete;
 }
 
 module.exports = {

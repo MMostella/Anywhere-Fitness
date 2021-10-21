@@ -52,6 +52,8 @@ router.post(
           const token = buildToken(user);
           res.status(200).json({
             message: `Welcome back ${user.username}!`,
+            user_id: user.user_id,
+            role_id: user.role_id,
             token,
           });
         } else {

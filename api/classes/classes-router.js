@@ -1,7 +1,5 @@
 const router = require("express").Router();
 
-// const {  } = require("../middleware/auth-middleware");
-
 const Classes = require("../classes/classes-model");
 
 router.get("/", (req, res, next) => {

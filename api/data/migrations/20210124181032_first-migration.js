@@ -24,7 +24,7 @@ exports.up = async (knex) => {
       classes.string("location").notNullable();
       classes.integer("max_class_size").notNullable();
       classes
-        .integer("user_id")
+        .integer("instructor_id")
         .unsigned()
         .notNullable()
         .references("user_id")

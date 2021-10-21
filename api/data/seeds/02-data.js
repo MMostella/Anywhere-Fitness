@@ -54,7 +54,7 @@ exports.seed = async function (knex) {
       intensity_level: "6",
       location: "Japan",
       max_class_size: 12,
-      user_id: "1",
+      instructor_id: "1",
     },
     {
       class_id: 1,
@@ -64,7 +64,7 @@ exports.seed = async function (knex) {
       intensity_level: "4",
       location: "China",
       max_class_size: 15,
-      user_id: "1",
+      instructor_id: "3",
     },
   ]);
   await knex("register").insert([
