@@ -14,7 +14,9 @@ const {
 
 const Users = require("../users/users-model");
 
-router.get("/", restricted, only(1), (req, res, next) => {
+const INSTRUCTOR_ROLE_ID = 1;
+
+router.get("/", restricted, only(INSTRUCTOR_ROLE_ID), (req, res, next) => {
   Users.getAll()
     .then((users) => {
       res.json(users);

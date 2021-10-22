@@ -15,7 +15,11 @@ function getAll() {
 }
 
 async function add(user) {
-  const newUser = await db("users").insert(user).returning("*");
+  const newUser = await db("users").insert(user, [
+    "user_id",
+    "username",
+    "role_id",
+  ]);
   return newUser;
 }
 
